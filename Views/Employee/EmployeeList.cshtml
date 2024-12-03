@@ -1,0 +1,81 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
+
+<div class="row mb-3 mt-2">
+    <div class="col-md-12">
+        <h5>Total Employees: @Model.Count()</h5>
+    </div>
+</div>
+<p>
+    <a asp-action="EmployeeForm" class="btn btn-primary">Create New</a>
+</p>
+
+<form method="post" asp-action="FilterEmployees" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <p>Job Title</p>
+            <select name="jobTitle" class="form-control">
+                <option value="">All</option>
+                <option value="Mern stack">Mern stack</option>
+                <option value="ai">AI</option>
+                <option value="DotNet">DotNet</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <p>Employee Type</p>
+            <select name="employeeType" class="form-control">
+                <option value="">All</option>
+                <option value="Part Time">Part-Time</option>
+                <option value="Full Time">Full-Time</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <p>Order By Salary</p>
+            <select name="salaryOrder" class="form-control">
+                <option value="">All</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <p>Order By Date</p>
+            <select name="dateOrder" class="form-control">
+                <option value="">All</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        <div class="col-md-3 mt-2">
+            <button type="submit" class="btn btn-info">Filter</button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    @if (!Model.Any())
+    {
+        <div class="col-md-12">
+            <h5 class="text-center">No Available Employees</h5>
+        </div>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-3 col-10 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="fw-bold">Employee Name:</span> <span>@item.Name</span><br />
+                            <span class="fw-bold">JOB TITLE:</span> <span>@item.JobTitle</span><br />
+                            <span class="fw-bold">Employee ID:</span> @item.EmployeeId<br />
+                            <span class="fw-bold">Type:</span> @item.EmployeeType<br />
+                            <span class="fw-bold">Date of Joining:</span> @item.DateOfJoining.ToShortDateString()<br />
+                            <span class="fw-bold">Salary:</span> @item.Salary
+                        </p>
+                        <a asp-action="DeleteEmployees" asp-route-id="@item.EmployeeId" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
